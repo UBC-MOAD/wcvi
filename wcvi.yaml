@@ -64,7 +64,7 @@ forcing:
     link to: /ocean/ssahu/CANYONS/nemo-forcing/
     check link:
       type: atmospheric
-      namelist filename: /ocean/ssahu/CANYONS/wcvi/namelist/namelist_cfg
+      namelist filename: namelist_cfg
 #  open_boundaries:
 #    link to: open_boundaries/
 #  rivers:
