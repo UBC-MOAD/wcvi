@@ -97,7 +97,7 @@
    sn_tem  = 'West_coast_temperature_nomask.nc',         -12           ,'votemper' ,    .false.    , .true. , 'yearly'   , ''       ,   ''    ,    ''
    sn_sal  = 'West_coast_salinity_nomask.nc'   ,         -12           ,'vosaline' ,    .false.    , .true. , 'yearly'   , ''       ,   ''    ,    ''
 !
-   cn_dir        = './'     !  root directory for the location of the runoff files
+   cn_dir        = '/ocean/ssahu/CANYONS/wcvi/initial_conditions/'     !  root directory for the location of the runoff files
    ln_tsd_init   = .true.   !  Initialisation of ocean T & S with T &S input data (T) or not (F)
    ln_tsd_tradmp = .false.   !  damping of ocean T & S toward T &S input data (T) or not (F)
 /
@@ -127,7 +127,7 @@
   sn_prec = 'ops',        1,                 'precip',    .true.,       .false.,  'daily',    'wcvi-weights-gem2.5-ops.nc', ''
   sn_snow = 'no_snow',  -12,                 'snow',      .true.,       .true.,   'yearly',   'wcvi-weights-gem2.5-ops.nc', ''
 
-   cn_dir      = './'    !  root directory for the location of the bulk files
+   cn_dir      = '/ocean/ssahu/CANYONS/nemo-forcing/'    !  root directory for the location of the bulk files
    rn_zqt      = 2.               !  Air temperature and humidity reference height (m)
    rn_vfac     = 1.               !  new feature, lets use (0. for comparison, then switch to 1)
                                   !  multiplicative factor for ocean/ice velocity

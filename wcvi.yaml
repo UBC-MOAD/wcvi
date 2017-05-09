@@ -1,6 +1,6 @@
-Name of the NEMO-3.6 configuration to use for the run;
+#Name of the NEMO-3.6 configuration to use for the run;
 # i.e. your NEMO-3.6-code/NEMOGCM/CONFIG/ configuration directory
-config_name: SalishSea
+config_name: WCVI
 
 # How is the domain to be distributed over the processors in the
 # i (longitude) and j (latitude) directions?
@@ -64,7 +64,7 @@ forcing:
     link to: /ocean/ssahu/CANYONS/nemo-forcing/
     check link:
       type: atmospheric
-      namelist filename: namelist_cfg
+      namelist filename: /ocean/ssahu/CANYONS/wcvi/namelist/namelist_cfg
 #  open_boundaries:
 #    link to: open_boundaries/
 #  rivers:
@@ -97,7 +97,8 @@ namelists:
   # The only required key is namelist_cfg.
   #
   # If relative, paths are taken from current directory
-  namelist_cfg: /ocean/ssahu/CANYONS/wcvi/namelist/namelist_cfg
+  namelist_cfg:
+    - /ocean/ssahu/CANYONS/wcvi/namelist/namelist_cfg
 #    - namelist.time
 #    - namelist.domain
 #    - namelist.surface
@@ -107,7 +108,8 @@ namelists:
 #    - namelist.dynamics
 #    - namelist.vertical
 #    - namelist.compute
-  namelist_ref: /ocean/ssahu/CANYONS/wcvi/namelist/namelist_ref 
+  namelist_ref:
+    - /ocean/ssahu/CANYONS/wcvi/namelist/namelist_ref 
 
 output:
   # If relative, paths are taken from current directory
