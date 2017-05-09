@@ -1,0 +1,125 @@
+Name of the NEMO-3.6 configuration to use for the run;
+# i.e. your NEMO-3.6-code/NEMOGCM/CONFIG/ configuration directory
+config_name: SalishSea
+
+# How is the domain to be distributed over the processors in the
+# i (longitude) and j (latitude) directions?
+# These values are used to set the nammpp namelist jpni & jpnj values
+# and to set the number of processors and nodes in the PBS script
+MPI decomposition: 1x7
+
+# For runs on systems that use qsub/PBS/TORQUE
+#
+# The run_id value appears in the list of jobs display by the showq command
+run_id: wcvi_attempt
+# Maximum run time requested/allowed for job
+# Too low and you job will be terminated before it finishes
+# Too high and you will have to wait longer on the queue for your job to start
+# You have to experiment to find the "just right" value
+walltime: 1:00:00
+# Email address to send job begin, end, and abort notifications to
+# If missing, email address is set to ${USER}@eos.ubc.ca
+email: ssahu@eoas.ubc.ca
+
+paths:
+  # Absolute path to NEMO-3.6 CONFIG/ directory.
+  # You can use ~, $USER, $HOME if you wish.
+  NEMO code config: /ocean/ssahu/CANYONS/nemo-3.6-code/NEMOGCM/CONFIG
+  # If relative, paths below are taken from current directory
+  # You can use ~, $USER, $HOME if you wish.
+  XIOS: /ocean/ssahu/CANYONS/xios
+  # Directory to use as base for relative paths in grid: and forcing: sections
+  # below
+  forcing: /ocean/ssahu/CANYONS/nemo-forcing
+  # Directory in which to create temporary run directories
+  # Typically NOT inside a version control repository
+  runs directory: /ocean/ssahu/CANYONS/Runs
+
+grid:
+  # If relative, paths are taken from the grid/ directory in the forcing
+  # path above
+  coordinates: /ocean/ssahu/CANYONS/wcvi/grid/coordinates.nc
+  bathymetry: /ocean/ssahu/CANYONS/wcvi/grid/bathy_meter.nc
+  # Optional path/filename for land processor elimination MPI-LPE mapping
+  # file that matches bathymetry;
+  # If "land processor elimination:" key is absent or has the value "False",
+  # land processor elimination is disabled
+  #land processor elimination: bathymetry_201702.csv
+
+forcing:
+  # The keys below are the names of symlinks that will be created.
+  # The targets of those symlinks will be the paths named by the associated
+  # "link to:" keys;
+  # e.g. a symlink named NEMO-atmos will be created to
+  # /results/forcing/atmospheric/GEM2.5/operational/
+  #
+  # The keys are directory names that you use as "cn_dir" values in your
+  # namelists.
+  #
+  # You only need to include keys that are used in the namelist(s) for
+  # your run.
+  #
+  # If relative, paths are taken from forcing path above
+  NEMO-atmos:
+    link to: /ocean/ssahu/CANYONS/nemo-forcing/
+    check link:
+      type: atmospheric
+      namelist filename: namelist_cfg
+#  open_boundaries:
+#    link to: open_boundaries/
+#  rivers:
+#    link to: rivers/
+  initial_strat:
+    link to: /ocean/ssahu/CANYONS/wcvi/initial_conditions/
+#  initial_green:
+#    link to: initial_green/
+
+#restart:
+  # The keys below are the names of symlinks that will be created.
+  # The targets of those symlinks will be the paths/filenames associated
+  # with the keys;
+  # e.g. a symlink named restart.nc will be created to
+  # /results/SalishSea/nowcast/05may15/SalishSea_02056320_restart.nc
+  #
+  # You only need to include keys for the types of restart files
+  # that are used in your run.
+  #
+  # If relative, paths are taken from current directory
+#  restart.nc: /results/SalishSea/nowcast/05may15/SalishSea_02056320_restart.nc
+#  restart_trc.nc: /results/SalishSea/nowcast-green/06dec15/SalishSea_00004320_restart_trc.nc
+
+namelists:
+  # The namelist section files in the lists below will be concatenated
+  # to create a namelist file whose name is the key under which the files
+  # are listed. The keys are the names of the namelist files that NEMO-3.6
+  # expects.
+  #
+  # The only required key is namelist_cfg.
+  #
+  # If relative, paths are taken from current directory
+  namelist_cfg: /ocean/ssahu/CANYONS/wcvi/namelist/namelist_cfg
+#    - namelist.time
+#    - namelist.domain
+#    - namelist.surface
+#    - namelist.lateral
+#    - namelist.bottom
+#    - namelist.tracer
+#    - namelist.dynamics
+#    - namelist.vertical
+#    - namelist.compute
+  namelist_ref: /ocean/ssahu/CANYONS/wcvi/namelist/namelist_ref 
+
+output:
+  # If relative, paths are taken from current directory
+  iodefs: /ocean/ssahu/CANYONS/wcvi/ouput/iodef.xml
+#  filedefs: /ocean/ssahu/CANYONS/wcvi/ouput/file_def.xml
+  domaindefs: /ocean/ssahu/CANYONS/wcvi/ouput/domain_def.xml
+  fielddefs: /ocean/ssahu/CANYONS/wcvi/ouput/field_def.xml
+  separate XIOS server: True
+  XIOS servers: 1
+
+vcs revisions:
+  hg:
+    - /ocean/ssahu/CANYONS/wcvi
+    - /ocean/ssahu/CANYONS/xios
+    - /ocean/ssahu/CANYONS/nemo-3.6-code
