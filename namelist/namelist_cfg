@@ -44,7 +44,7 @@
 &namdom        !   space and time domain (bathymetry, mesh, timestep)
 !-----------------------------------------------------------------------
    nn_bathy    =    1      !  compute (=0) or read (=1) the bathymetry file
-   rn_rdt      =  120.     !  time step for the dynamics (and tracer if nn_acc=0)
+   rn_rdt      =   60.     !  time step for the dynamics (and tracer if nn_acc=0)
    rn_rdtmin   = 7200.           !  minimum time step on tracers (used if nn_acc=1)
    rn_rdtmax   = 7200.           !  maximum time step on tracers (used if nn_acc=1)
    jphgr_msh   =       0                 !  type of horizontal mesh
