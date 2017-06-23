@@ -6,8 +6,8 @@
 !-----------------------------------------------------------------------
    cn_exp      =   "WCVI"   !  experience name
    nn_it000    =       1   !  first time step
-   nn_itend    =    1800   !  last  time step
-   nn_date0    =  20141205 ! date at nn_it000 (format yyyymmdd) ie START OF THIS SEGMENT
+   nn_itend    =    54000   !  last  time step
+   nn_date0    =  20160401 ! date at nn_it000 (format yyyymmdd) ie START OF THIS SEGMENT
    nn_leapy    =      30   !  Leap year calendar (1) or not (0)
    nn_stock    =    1800   !  frequency of creation of a restart file (modulo referenced to 1)
    nn_write    =      60   !  frequency of write in the output file   (modulo referenced to nn_it000)
@@ -23,7 +23,7 @@
    jp_cfg      =       1                 !  resolution of the configuration
    jpidta      =      70                 !  1st lateral dimension ( >= jpi ) = 30*jp_cfg+2
    jpjdta      =     100                 !  2nd    "         "    ( >= jpj ) = 20*jp_cfg+2 
-   jpkdta      =      27                 !  number of levels      ( >= jpk )
+   jpkdta      =      50                 !  number of levels      ( >= jpk )
    jpiglo      =      70                 !  1st dimension of global domain --> i  = jpidta
    jpjglo      =     100                 !  2nd    -                  -    --> j  = jpjdta
    jpizoom     =       1                 !  left bottom (i,j) indices of the zoom
@@ -91,19 +91,21 @@
                !   passive tracer coarsened online simulations
 !-----------------------------------------------------------------------
 /
+
 !-----------------------------------------------------------------------
 &namtsd    !   data : Temperature  & Salinity
 !-----------------------------------------------------------------------
 !-----------------------------------------------------------------------
 !          !  file name                            ! frequency (hours) ! variable  ! time interp. !  clim  ! 'yearly'/ ! weights  ! rotation ! land/sea mask !
 !          !                                       !  (if <0  months)  !   name    !   (logical)  !  (T/F) ! 'monthly' ! filename ! pairing  ! filename      !
-   sn_tem  = 'West_coast_temperature_nomask.nc',         -12           ,'votemper' ,    .false.    , .true. , 'yearly'   , ''       ,   ''    ,    ''
-   sn_sal  = 'West_coast_salinity_nomask.nc'   ,         -12           ,'vosaline' ,    .false.    , .true. , 'yearly'   , ''       ,   ''    ,    ''
+   sn_tem  = 'West_coast_temperature_salinity_nomask_JP.nc',         -12           ,'votemper' ,    .false.    , .true. , 'yearly'   , ''       ,   ''    ,    ''
+   sn_sal  = 'West_coast_temperature_salinity_nomask_JP.nc'   ,         -12           ,'vosaline' ,    .false.    , .true. , 'yearly'   , ''       ,   ''    ,    ''
 !
    cn_dir        = '/ocean/ssahu/CANYONS/wcvi/initial_conditions/'     !  root directory for the location of the runoff files
    ln_tsd_init   = .true.   !  Initialisation of ocean T & S with T &S input data (T) or not (F)
    ln_tsd_tradmp = .false.   !  damping of ocean T & S toward T &S input data (T) or not (F)
 /
+
 !-----------------------------------------------------------------------
 &namsbc        !   Surface Boundary Condition (surface module)
 !-----------------------------------------------------------------------
@@ -130,7 +132,7 @@
   sn_prec = 'ops',        1,                 'precip',    .true.,       .false.,  'daily',    'wcvi-weights-gem2.5-ops.nc', ''
   sn_snow = 'no_snow',  -12,                 'snow',      .true.,       .true.,   'yearly',   'wcvi-weights-gem2.5-ops.nc', ''
 
-   cn_dir      = '/ocean/ssahu/CANYONS/nemo-forcing/'    !  root directory for the location of the bulk files
+   cn_dir      = '/ocean/ssahu/CANYONS/nemo-forcing/43_days_JP_primitive/'    !  root directory for the location of the bulk files
    rn_zqt      = 2.               !  Air temperature and humidity reference height (m)
    rn_vfac     = 1.               !  new feature, lets use (0. for comparison, then switch to 1)
                                   !  multiplicative factor for ocean/ice velocity
@@ -211,15 +213,15 @@
     nb_bdy         = 4                                                     !  number of open boundary sets According to merge namelist, only 1
     ln_coords_file = .false., .false., .false., .false.                    !  =T : read bdy coordinates from file
     cn_dyn2d       = 'flather', 'flather', 'flather', 'flather'            !
-    nn_dyn2d_dta   =  0, 0, 0, 0           !  = 0, bdy data are equal to the initial state
+    nn_dyn2d_dta   =  1, 1 , 1, 1           !  = 0, bdy data are equal to the initial state
                                            !  = 1, bdy data are read in 'bdydata   .nc' files
                                            !  = 2, use tidal harmonic forcing data from files
                                            !  = 3, use external data AND tidal harmonic forcing
     cn_dyn3d      =  'orlanski', 'orlanski', 'orlanski', 'orlanski'
-    nn_dyn3d_dta  =  0, 0, 0, 0            !  = 0, bdy data are equal to the initial state
+    nn_dyn3d_dta  =  1, 1, 1, 1            !  = 0, bdy data are equal to the initial state
                                            !  = 1, bdy data are read in 'bdydata   .nc' files
     cn_tra        =  'frs','frs', 'frs', 'frs'           !
-    nn_tra_dta    =  0, 0, 0, 0            !  = 0, bdy data are equal to the initial state
+    nn_tra_dta    =  1, 1, 1, 1            !  = 0, bdy data are equal to the initial state
                                            !  = 1, bdy data are read in 'bdydata   .nc' files
     ln_tra_dmp    =.false., .false., .false., .false.         !  open boudaries conditions for tracers
     ln_dyn3d_dmp  =.false., .false., .false., .false.         !  open boundary condition for baroclinic velocities
@@ -264,6 +266,18 @@
 !-----------------------------------------------------------------------
 &nambdy_dta      !  open boundaries - external data           ("key_bdy")
 !-----------------------------------------------------------------------
+!              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
+!              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
+   bn_ssh =     '2d' ,                   1     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d' ,                   1     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d' ,                   1     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d' ,                   1     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d' ,                   1     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d' ,                   1     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d' ,                   1     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
+   ln_full_vel = .true.		! =T => full velocities in 3D boundary conditions
+                                        ! =F => baroclinic velocities in 3D boundary conditions
 /
 !-----------------------------------------------------------------------
 &nambdy_tide     ! tidal forcing at open boundaries

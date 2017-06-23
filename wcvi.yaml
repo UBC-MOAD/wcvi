@@ -16,7 +16,7 @@ run_id: wcvi_attempt
 # Too low and you job will be terminated before it finishes
 # Too high and you will have to wait longer on the queue for your job to start
 # You have to experiment to find the "just right" value
-walltime: 1:00:00
+walltime: 12:00:00
 # Email address to send job begin, end, and abort notifications to
 # If missing, email address is set to ${USER}@eos.ubc.ca
 email: ssahu@eoas.ubc.ca
@@ -30,7 +30,7 @@ paths:
   XIOS: /ocean/ssahu/CANYONS/xios
   # Directory to use as base for relative paths in grid: and forcing: sections
   # below
-  forcing: /ocean/ssahu/CANYONS/nemo-forcing
+  forcing: /ocean/ssahu/CANYONS/nemo-forcing/43_days_JP_primitive/
   # Directory in which to create temporary run directories
   # Typically NOT inside a version control repository
   runs directory: /ocean/ssahu/CANYONS/Runs
@@ -61,12 +61,12 @@ forcing:
   #
   # If relative, paths are taken from forcing path above
   NEMO-atmos:
-    link to: /ocean/ssahu/CANYONS/nemo-forcing/
+    link to: /ocean/ssahu/CANYONS/nemo-forcing/43_days_JP_primitive/
 #    check link:
 #      type: atmospheric
 #      namelist filename: namelist_cfg
-#  open_boundaries:
-#    link to: open_boundaries/
+  open_boundaries:
+    link to: /ocean/ssahu/CANYONS/bdy_files/
 #  rivers:
 #    link to: rivers/
   initial_strat:
@@ -79,7 +79,7 @@ forcing:
   # The targets of those symlinks will be the paths/filenames associated
   # with the keys;
   # e.g. a symlink named restart.nc will be created to
-  # /results/SalishSea/nowcast/05may15/SalishSea_02056320_restart.nc
+#   /ocean/ssahu/CANYONS/Results/
   #
   # You only need to include keys for the types of restart files
   # that are used in your run.
