@@ -227,10 +227,9 @@
     ln_dyn3d_dmp  =.false., .false., .false., .false.         !  open boundary condition for baroclinic velocities
     rn_time_dmp   =  1., 1., 1., 1.                ! Damping time scale in days (nudging on orlanski inflow)
     rn_time_dmp_out =  1., 1., 1., 1.              ! Outflow damping time scale (nudging on orlanski outflow)
-    nn_rimwidth   = 10, 10, 10, 10
+    nn_rimwidth   = 4, 4, 4, 4
 &end
-
-
+/
 &nambdy_index ! open boundaries - definition ("key_bdy")
 !-----------------------------------------------------------------------
     ctypebdy = 'W'
@@ -238,7 +237,23 @@
     nbdybeg   =   2     ! j-index for segment beginning
     nbdyend   =  99     ! j-index for segment end
 &end
-
+/
+&nambdy_dta      !  open boundaries - external data           ("key_bdy")
+!-----------------------------------------------------------------------
+!              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
+!              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
+   bn_ssh =     '2d_west' ,                   1     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_west' ,                   1     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_west' ,                   1     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_west' ,                   1     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_west' ,                   1     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_west' ,                   1     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_west' ,                   1     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
+   ln_full_vel = .true.         ! =T => full velocities in 3D boundary conditions
+                                        ! =F => baroclinic velocities in 3D boundary conditions
+&end
+/
 &nambdy_index ! open boundaries - definition ("key_bdy")
 !-----------------------------------------------------------------------
     ctypebdy  = 'N'
@@ -246,7 +261,23 @@
     nbdybeg   =   2   ! j-index for segment beginning
     nbdyend   =  69   ! j-index for segment end
 &end
-
+/
+&nambdy_dta      !  open boundaries - external data           ("key_bdy")
+!-----------------------------------------------------------------------
+!              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
+!              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
+   bn_ssh =     '2d_north' ,                   1     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_north' ,                   1     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_north' ,                   1     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_north' ,                   1     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_north' ,                   1     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_north' ,                   1     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_north' ,                   1     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
+   ln_full_vel = .true.         ! =T => full velocities in 3D boundary conditions
+                                        ! =F => baroclinic velocities in 3D boundary conditions
+&end
+/
 &nambdy_index ! open boundaries - definition ("key_bdy")
 !-----------------------------------------------------------------------
     ctypebdy  = 'E'
@@ -254,7 +285,23 @@
     nbdybeg   =   2   ! j-index for segment beginning
     nbdyend   =  99   ! j-index for segment end
 &end
-
+/
+&nambdy_dta      !  open boundaries - external data           ("key_bdy")
+!-----------------------------------------------------------------------
+!              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
+!              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
+   bn_ssh =     '2d_right' ,                   1     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_right' ,                   1     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_right' ,                   1     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_right' ,                   1     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_right' ,                   1     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_right' ,                   1     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_right' ,                   1     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
+   ln_full_vel = .true.         ! =T => full velocities in 3D boundary conditions
+                                        ! =F => baroclinic velocities in 3D boundary conditions
+&end
+/
 &nambdy_index ! open boundaries - definition ("key_bdy")
 !-----------------------------------------------------------------------
     ctypebdy  = 'S'
@@ -268,13 +315,13 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d' ,                   1     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d' ,                   1     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d' ,                   1     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u3d  =    '3d' ,                   1     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v3d  =    '3d' ,                   1     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_tem  =    '3d' ,                   1     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_sal  =    '3d' ,                   1     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_south' ,                   1     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_south' ,                   1     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_south' ,                   1     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_south' ,                   1     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_south' ,                   1     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_south' ,                   1     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_south' ,                   1     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
    ln_full_vel = .true.		! =T => full velocities in 3D boundary conditions
                                         ! =F => baroclinic velocities in 3D boundary conditions
