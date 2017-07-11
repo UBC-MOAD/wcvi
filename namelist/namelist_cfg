@@ -6,7 +6,7 @@
 !-----------------------------------------------------------------------
    cn_exp      =   "WCVI"   !  experience name
    nn_it000    =       1   !  first time step
-   nn_itend    =  1    ! 54000   !  last  time step
+   nn_itend    =   2400      ! 54000   !  last  time step
    nn_date0    =  20160401 ! date at nn_it000 (format yyyymmdd) ie START OF THIS SEGMENT
    nn_leapy    =      30   !  Leap year calendar (1) or not (0)
    nn_stock    =    1800   !  frequency of creation of a restart file (modulo referenced to 1)
@@ -239,9 +239,9 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_west_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_west_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_west_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_west' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_west' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_west' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_u3d  =    '3d_NEMO_west' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_v3d  =    '3d_NEMO_west' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_tem  =    '3d_NEMO_west' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
@@ -254,18 +254,18 @@
 &nambdy_index ! open boundaries - definition ("key_bdy")
 !-----------------------------------------------------------------------
     ctypebdy  = 'N'
-    nbdyind   =  98   ! i-index for segment
-    nbdybeg   =   2   ! j-index for segment beginning
-    nbdyend   =  69   ! j-index for segment end
+    nbdyind   =  98   ! j-index for segment
+    nbdybeg   =   2   ! i-index for segment beginning
+    nbdyend   =  69   ! i-index for segment end
 &end
 /
 &nambdy_dta      !  open boundaries - external data           ("key_bdy")
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_north_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_north_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_north_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_north' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_north' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_north' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_u3d  =    '3d_NEMO_north' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_v3d  =    '3d_NEMO_north' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_tem  =    '3d_NEMO_north' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
@@ -287,9 +287,9 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_right_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_right_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_right_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_right' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_right' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_right' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_u3d  =    '3d_NEMO_right' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_v3d  =    '3d_NEMO_right' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_tem  =    '3d_NEMO_right' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
@@ -302,9 +302,9 @@
 &nambdy_index ! open boundaries - definition ("key_bdy")
 !-----------------------------------------------------------------------
     ctypebdy  = 'S'
-    nbdyind   =  2   ! i-index for segment
-    nbdybeg   =  2   ! j-index for segment beginning
-    nbdyend   = 69   ! j-index for segment end
+    nbdyind   =  2   ! j-index for segment
+    nbdybeg   =  2   ! i-index for segment beginning
+    nbdyend   = 69   ! i-index for segment end
 &end
 /
 !-----------------------------------------------------------------------
@@ -312,9 +312,9 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_south_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_south_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_south_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_south' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_south' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_south' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_u3d  =    '3d_NEMO_south' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_v3d  =    '3d_NEMO_south' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_tem  =    '3d_NEMO_south' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
