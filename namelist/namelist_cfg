@@ -44,7 +44,7 @@
 &namdom        !   space and time domain (bathymetry, mesh, timestep)
 !-----------------------------------------------------------------------
    nn_bathy    =    1      !  compute (=0) or read (=1) the bathymetry file
-   rn_rdt      =   60.     !  time step for the dynamics (and tracer if nn_acc=0)
+   rn_rdt      =   10.     !  time step for the dynamics (and tracer if nn_acc=0)
    rn_rdtmin   = 7200.           !  minimum time step on tracers (used if nn_acc=1)
    rn_rdtmax   = 7200.           !  maximum time step on tracers (used if nn_acc=1)
    jphgr_msh   =       0                 !  type of horizontal mesh
@@ -239,9 +239,9 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_west' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_west' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_west' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_west_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_west_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_west_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_u3d  =    '3d_NEMO_west' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_v3d  =    '3d_NEMO_west' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_tem  =    '3d_NEMO_west' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
@@ -263,9 +263,9 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_north' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_north' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_north' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_north_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_north_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_north_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_u3d  =    '3d_NEMO_north' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_v3d  =    '3d_NEMO_north' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_tem  =    '3d_NEMO_north' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
@@ -287,9 +287,9 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_right' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_right' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_right' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_right_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_right_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_right_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_u3d  =    '3d_NEMO_right' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_v3d  =    '3d_NEMO_right' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_tem  =    '3d_NEMO_right' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
@@ -312,9 +312,9 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_south' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_south' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_south' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_south_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_south_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_south_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_u3d  =    '3d_NEMO_south' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_v3d  =    '3d_NEMO_south' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    bn_tem  =    '3d_NEMO_south' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
@@ -469,8 +469,8 @@
 !-----------------------------------------------------------------------
 &nammpp        !   Massively Parallel Processing                        ("key_mpp_mpi)
 !-----------------------------------------------------------------------
-jpni = 2  ! jpni: number of processors following i (set automatically if < 1)
-jpnj = 3  ! jpnj: number of processors following j (set automatically if < 1)
+jpni = 1  ! jpni: number of processors following i (set automatically if < 1)
+jpnj = 7  ! jpnj: number of processors following j (set automatically if < 1)
 /
 !-----------------------------------------------------------------------
 &namctl        !   Control prints & Benchmark
@@ -537,3 +537,5 @@ jpnj = 3  ! jpnj: number of processors following j (set automatically if < 1)
 !-----------------------------------------------------------------------
    ln_neptramp       = .false.  ! ramp down Neptune velocity in shallow water
 /
+
+
