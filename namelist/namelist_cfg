@@ -1,4 +1,4 @@
-!!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !! NEMO/OPA  : GYRE_PISCES Configuration namelist to overwrite reference dynamical namelist
 !!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !-----------------------------------------------------------------------
@@ -6,8 +6,8 @@
 !-----------------------------------------------------------------------
    cn_exp      =   "WCVI"   !  experience name
    nn_it000    =       1   !  first time step
-   nn_itend    =   2400      ! 54000   !  last  time step
-   nn_date0    =  20160401 ! date at nn_it000 (format yyyymmdd) ie START OF THIS SEGMENT
+   nn_itend    =   54000   !  last  time step
+   nn_date0    =  20160402 ! date at nn_it000 (format yyyymmdd) ie START OF THIS SEGMENT
    nn_leapy    =      30   !  Leap year calendar (1) or not (0)
    nn_stock    =    1800   !  frequency of creation of a restart file (modulo referenced to 1)
    nn_write    =      60   !  frequency of write in the output file   (modulo referenced to nn_it000)
@@ -44,7 +44,7 @@
 &namdom        !   space and time domain (bathymetry, mesh, timestep)
 !-----------------------------------------------------------------------
    nn_bathy    =    1      !  compute (=0) or read (=1) the bathymetry file
-   rn_rdt      =   10.     !  time step for the dynamics (and tracer if nn_acc=0)
+   rn_rdt      =    10.     !  time step for the dynamics (and tracer if nn_acc=0)
    rn_rdtmin   = 7200.           !  minimum time step on tracers (used if nn_acc=1)
    rn_rdtmax   = 7200.           !  maximum time step on tracers (used if nn_acc=1)
    jphgr_msh   =       0                 !  type of horizontal mesh
@@ -76,7 +76,7 @@
    nn_baro       =    30               !  Number of iterations of barotropic mode
                                        !  during rn_rdt seconds. Only used if ln_bt_nn_auto=F
    rn_bt_cmax    =    0.8              !  Maximum courant number allowed if ln_bt_nn_auto=T
-   nn_bt_flt     =    1                !  Time filter choice
+   nn_bt_flt     =    0                !  Time filter choice
                                        !  = 0 None
                                        !  = 1 Boxcar over   nn_baro barotropic steps
                                        !  = 2 Boxcar over 2*nn_baro     "        "
@@ -214,7 +214,7 @@
                                            !  = 1, bdy data are read in 'bdydata   .nc' files
                                            !  = 2, use tidal harmonic forcing data from files
                                            !  = 3, use external data AND tidal harmonic forcing
-    cn_dyn3d      =  'orlanski', 'orlanski', 'orlanski', 'orlanski'
+    cn_dyn3d      =  'none' , 'none', 'none', 'none'  !
     nn_dyn3d_dta  =  1, 1, 1, 1            !  = 0, bdy data are equal to the initial state
                                            !  = 1, bdy data are read in 'bdydata   .nc' files
     cn_tra        =  'frs','frs', 'frs', 'frs'           !
@@ -224,14 +224,14 @@
     ln_dyn3d_dmp  =.false., .false., .false., .false.         !  open boundary condition for baroclinic velocities
     rn_time_dmp   =  1., 1., 1., 1.                ! Damping time scale in days (nudging on orlanski inflow)
     rn_time_dmp_out =  1., 1., 1., 1.              ! Outflow damping time scale (nudging on orlanski outflow)
-    nn_rimwidth   = 4, 4, 4, 4
+    nn_rimwidth   = 4,4,4,4
 &end
 /
 &nambdy_index ! open boundaries - definition ("key_bdy")
 !-----------------------------------------------------------------------
     ctypebdy = 'W'
-    nbdyind   =   2     ! i-index for segment
-    nbdybeg   =   2     ! j-index for segment beginning
+    nbdyind   =   2      ! i-index for segment
+    nbdybeg   =   2      ! j-index for segment beginning
     nbdyend   =  99     ! j-index for segment end
 &end
 /
@@ -239,13 +239,13 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_west_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_west_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_west_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u3d  =    '3d_NEMO_west' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v3d  =    '3d_NEMO_west' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_tem  =    '3d_NEMO_west' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_sal  =    '3d_NEMO_west' ,                   24     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_west_twoless' ,          24     , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_west_twoless' ,                   24     , 'vobtcrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_west_twoless' ,                   24     , 'vobtcrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_NEMO_west_twoless' ,              24     , 'vozocrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_NEMO_west_twoless' ,              24     , 'vomecrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_NEMO_west_twoless' ,              24     , 'votemper' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_NEMO_west_twoless' ,              24     , 'vosaline' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
    ln_full_vel = .true.         ! =T => full velocities in 3D boundary conditions
                                         ! =F => baroclinic velocities in 3D boundary conditions
@@ -255,21 +255,21 @@
 !-----------------------------------------------------------------------
     ctypebdy  = 'N'
     nbdyind   =  98   ! j-index for segment
-    nbdybeg   =   2   ! i-index for segment beginning
-    nbdyend   =  69   ! i-index for segment end
+    nbdybeg   =   2    ! i-index for segment beginning
+    nbdyend   =  69    ! i-index for segment end
 &end
 /
 &nambdy_dta      !  open boundaries - external data           ("key_bdy")
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_north_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_north_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_north_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u3d  =    '3d_NEMO_north' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v3d  =    '3d_NEMO_north' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_tem  =    '3d_NEMO_north' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_sal  =    '3d_NEMO_north' ,                   24     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_north_twoless' ,          24     , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_north_twoless' ,                   24     , 'vobtcrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_north_twoless' ,                   24     , 'vobtcrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_NEMO_north_twoless' ,              24     , 'vozocrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_NEMO_north_twoless' ,              24     , 'vomecrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_NEMO_north_twoless' ,              24     , 'votemper' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_NEMO_north_twoless' ,              24     , 'vosaline' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
    ln_full_vel = .true.         ! =T => full velocities in 3D boundary conditions
                                         ! =F => baroclinic velocities in 3D boundary conditions
@@ -278,8 +278,8 @@
 &nambdy_index ! open boundaries - definition ("key_bdy")
 !-----------------------------------------------------------------------
     ctypebdy  = 'E'
-    nbdyind   =  68   ! i-index for segment
-    nbdybeg   =   2   ! j-index for segment beginning
+    nbdyind   =  68    ! i-index for segment
+    nbdybeg   =   2    ! j-index for segment beginning
     nbdyend   =  99   ! j-index for segment end
 &end
 /
@@ -287,13 +287,13 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_right_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_right_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_right_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u3d  =    '3d_NEMO_right' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v3d  =    '3d_NEMO_right' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_tem  =    '3d_NEMO_right' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_sal  =    '3d_NEMO_right' ,                   24     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_right_twoless' ,          24     , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_right_twoless' ,                   24     , 'vobtcrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_right_twoless' ,                   24     , 'vobtcrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_NEMO_right_twoless' ,              24     , 'vozocrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_NEMO_right_twoless' ,              24     , 'vomecrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_NEMO_right_twoless' ,              24     , 'votemper' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_NEMO_right_twoless' ,              24     , 'vosaline' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
    ln_full_vel = .true.         ! =T => full velocities in 3D boundary conditions
                                         ! =F => baroclinic velocities in 3D boundary conditions
@@ -312,13 +312,13 @@
 !-----------------------------------------------------------------------
 !              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
 !              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_south_zero_ssh' ,                   24     , 'sossheig' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_south_zero_ssh' ,                   24     , 'vobtcrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_south_zero_ssh' ,                   24     , 'vobtcrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u3d  =    '3d_NEMO_south' ,                   24     , 'vozocrtx' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v3d  =    '3d_NEMO_south' ,                   24     , 'vomecrty' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_tem  =    '3d_NEMO_south' ,                   24     , 'votemper' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_sal  =    '3d_NEMO_south' ,                   24     , 'vosaline' ,     .false.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_ssh =     '2d_south_twoless' ,          24     , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_south_twoless' ,                   24     , 'vobtcrtx' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_south_twoless' ,                   24     , 'vobtcrty' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_NEMO_south_twoless' ,              24     , 'vozocrtx' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_NEMO_south_twoless' ,              24     , 'vomecrty' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_NEMO_south_twoless' ,              24     , 'votemper' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_NEMO_south_twoless' ,              24     , 'vosaline' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
    ln_full_vel = .true.		! =T => full velocities in 3D boundary conditions
                                         ! =F => baroclinic velocities in 3D boundary conditions
@@ -443,7 +443,7 @@
 !------------------------------------------------------------------------ "key_kppcustom" or "key_kpplktb")
 /
 !-----------------------------------------------------------------------
-&namzdf_gls                !   GLS vertical diffusion                   ("key_zdfgls")
+&namzdf_gls                !   GLS verticaldiffusion                   ("key_zdfgls")
 !-----------------------------------------------------------------------
 /
 !-----------------------------------------------------------------------
@@ -469,8 +469,8 @@
 !-----------------------------------------------------------------------
 &nammpp        !   Massively Parallel Processing                        ("key_mpp_mpi)
 !-----------------------------------------------------------------------
-jpni = 1  ! jpni: number of processors following i (set automatically if < 1)
-jpnj = 7  ! jpnj: number of processors following j (set automatically if < 1)
+jpni = 3  ! jpni: number of processors following i (set automatically if < 1)
+jpnj = 2  ! jpnj: number of processors following j (set automatically if < 1)
 /
 !-----------------------------------------------------------------------
 &namctl        !   Control prints & Benchmark

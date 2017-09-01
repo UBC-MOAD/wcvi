@@ -6,7 +6,7 @@ config_name: WCVI
 # i (longitude) and j (latitude) directions?
 # These values are used to set the nammpp namelist jpni & jpnj values
 # and to set the number of processors and nodes in the PBS script
-MPI decomposition: 1x7
+MPI decomposition: 3x2
 
 # For runs on systems that use qsub/PBS/TORQUE
 #
