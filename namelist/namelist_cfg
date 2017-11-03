@@ -6,7 +6,7 @@
 !-----------------------------------------------------------------------
    cn_exp      =   "WCVI"   !  experience name
    nn_it000    =       1   !  first time step
-   nn_itend    =   54000   !  last  time step
+   nn_itend    =   540000   !  last  time step
    nn_date0    =  20160402 ! date at nn_it000 (format yyyymmdd) ie START OF THIS SEGMENT
    nn_leapy    =      30   !  Leap year calendar (1) or not (0)
    nn_stock    =    1800   !  frequency of creation of a restart file (modulo referenced to 1)
@@ -44,7 +44,7 @@
 &namdom        !   space and time domain (bathymetry, mesh, timestep)
 !-----------------------------------------------------------------------
    nn_bathy    =    1      !  compute (=0) or read (=1) the bathymetry file
-   rn_rdt      =    10.     !  time step for the dynamics (and tracer if nn_acc=0)
+   rn_rdt      =    6.     !  time step for the dynamics (and tracer if nn_acc=0)
    rn_rdtmin   = 7200.           !  minimum time step on tracers (used if nn_acc=1)
    rn_rdtmax   = 7200.           !  maximum time step on tracers (used if nn_acc=1)
    jphgr_msh   =       0                 !  type of horizontal mesh
@@ -100,7 +100,7 @@
 !
    cn_dir        = '/ocean/ssahu/CANYONS/wcvi/initial_conditions/'     !  root directory for the location of the runoff files
    ln_tsd_init   = .true.   !  Initialisation of ocean T & S with T &S input data (T) or not (F)
-   ln_tsd_tradmp = .true.   !  damping of ocean T & S toward T &S input data (T) or not (F)
+   ln_tsd_tradmp = .false.   !  damping of ocean T & S toward T &S input data (T) or not (F)
 /
 
 !-----------------------------------------------------------------------
@@ -204,51 +204,52 @@
 &nam_tide      !    tide parameters (#ifdef key_tide)
 !-----------------------------------------------------------------------
 /
-!-----------------------------------------------------------------------
+!------------------------------------------------------
 &nambdy        !  unstructured open boundaries                          ("key_bdy")
 !-----------------------------------------------------------------------
-    nb_bdy         = 4                                                     !  number of open boundary sets According to merge namelist, only 1
-    ln_coords_file = .false., .false., .false., .false.                    !  =T : read bdy coordinates from file
-    cn_dyn2d       = 'none', 'none', 'none', 'none'            !
-    nn_dyn2d_dta   =  1, 1 , 1, 1           !  = 0, bdy data are equal to the initial state
-                                           !  = 1, bdy data are read in 'bdydata   .nc' files
-                                           !  = 2, use tidal harmonic forcing data from files
-                                           !  = 3, use external data AND tidal harmonic forcing
-    cn_dyn3d      =  'none' , 'none', 'none', 'none'  !
-    nn_dyn3d_dta  =  1, 1, 1, 1            !  = 0, bdy data are equal to the initial state
-                                           !  = 1, bdy data are read in 'bdydata   .nc' files
-    cn_tra        =  'frs','frs', 'frs', 'frs'           !
-    nn_tra_dta    =  1, 1, 1, 1            !  = 0, bdy data are equal to the initial state
-                                           !  = 1, bdy data are read in 'bdydata   .nc' files
-    ln_tra_dmp    =.false., .false., .false., .false.         !  open boudaries conditions for tracers
-    ln_dyn3d_dmp  =.false., .false., .false., .false.         !  open boundary condition for baroclinic velocities
-    rn_time_dmp   =  1., 1., 1., 1.                ! Damping time scale in days (nudging on orlanski inflow)
-    rn_time_dmp_out =  1., 1., 1., 1.              ! Outflow damping time scale (nudging on orlanski outflow)
+    nb_bdy         = 4                                                              !  number of open boundary sets According to merge namelist, only 1
+    ln_coords_file = .false., .falser., .false., .false.                    !  =T : read bdy coordinates from file
+    cn_dyn2d       = 'flather', 'flather', 'flather', 'flather'                       !
+    nn_dyn2d_dta   =  1, 1, 1, 1                                     !  = 0, bdy data are equal to the initial state
+                                                                                                !  = 1, bdy data are read in 'bdydata   .nc' files
+                                                                                                !  = 2, use tidal harmonic forcing data from files
+                                                                                                !  = 3, use external data AND tidal harmonic forcing
+    cn_dyn3d      =  'none', 'none', 'none', 'none'                    !
+    nn_dyn3d_dta  =         0,                   0,               0,                        0                              !  = 0, bdy data are equal to the initial state
+                                                                                                                           !  = 1, bdy data are read in 'bdydata   .nc' files
+    cn_tra        =  'frs','frs', 'frs', 'frs'                         !
+    nn_tra_dta    =  1, 1, 1, 1                                        !  = 0, bdy data are equal to the initial state
+                                                                       !  = 1, bdy data are read in 'bdydata   .nc' files
+    ln_tra_dmp    =.false., .false., .false., .false.                  !  open boudaries conditions for tracers
+    ln_dyn3d_dmp  =.false., .false., .false., .false.                  !  open boundary condition for baroclinic velocities
+    rn_time_dmp   =  1., 1., 1., 1.                                    ! Damping time scale in days (nudging on orlanski inflow)
+    rn_time_dmp_out =  1., 1., 1., 1.                                  ! Outflow damping time scale (nudging on orlanski outflow)
+!    rn_max_sponge = 20., 20., 20., 20.                   ! maximum strength of sponge (m2/s)
     nn_rimwidth   = 4,4,4,4
 &end
 /
 &nambdy_index ! open boundaries - definition ("key_bdy")
 !-----------------------------------------------------------------------
     ctypebdy = 'W'
-    nbdyind   =   2      ! i-index for segment
-    nbdybeg   =   2      ! j-index for segment beginning
-    nbdyend   =  99     ! j-index for segment end
+    nbdyind   =   2       ! i-index for segment
+    nbdybeg   =   2       ! j-index for segment beginning
+    nbdyend   =   99     ! j-index for segment end
 &end
 /
 &nambdy_dta      !  open boundaries - external data           ("key_bdy")
 !-----------------------------------------------------------------------
-!              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
-!              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_west_twoless' ,          24     , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_west_twoless' ,                   24     , 'vobtcrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_west_twoless' ,                   24     , 'vobtcrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u3d  =    '3d_NEMO_west_twoless' ,              24     , 'vozocrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v3d  =    '3d_NEMO_west_twoless' ,              24     , 'vomecrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_tem  =    '3d_NEMO_west_twoless' ,              24     , 'votemper' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_sal  =    '3d_NEMO_west_twoless' ,              24     , 'vosaline' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+!              !  file name                ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
+!              !                           !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
+   bn_ssh =     '2d_west_flather_twoless'  ,         24        , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_west_flather_twoless'  ,         24        , 'vobtcrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_west_flather_twoless'  ,         24        , 'vobtcrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_west_velocity_twoless' ,         24        , 'vozocrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_west_velocity_twoless' ,         24        , 'vomecrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_NEMO_west_twoless'     ,         24        , 'votemper' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_NEMO_west_twoless'     ,         24        , 'vosaline' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
    ln_full_vel = .true.         ! =T => full velocities in 3D boundary conditions
-                                        ! =F => baroclinic velocities in 3D boundary conditions
+!                                        ! =F => baroclinic velocities in 3D boundary conditions
 &end
 /
 &nambdy_index ! open boundaries - definition ("key_bdy")
@@ -261,18 +262,18 @@
 /
 &nambdy_dta      !  open boundaries - external data           ("key_bdy")
 !-----------------------------------------------------------------------
-!              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
-!              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_north_twoless' ,          24     , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_north_twoless' ,                   24     , 'vobtcrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_north_twoless' ,                   24     , 'vobtcrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u3d  =    '3d_NEMO_north_twoless' ,              24     , 'vozocrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v3d  =    '3d_NEMO_north_twoless' ,              24     , 'vomecrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_tem  =    '3d_NEMO_north_twoless' ,              24     , 'votemper' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_sal  =    '3d_NEMO_north_twoless' ,              24     , 'vosaline' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+!              !  file name                ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
+!              !                           !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
+   bn_ssh =     '2d_north_flather_twoless' ,          24       , 'sossheig' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_north_flather_twoless' ,          24       , 'vobtcrtx' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_north_flather_twoless' ,          24       , 'vobtcrty' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_north_velocity_twoless' ,         24       , 'vozocrtx' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_north_velocity_twoless' ,         24       , 'vomecrty' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_NEMO_north_twoless' ,             24       , 'votemper' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_NEMO_north_twoless' ,             24       , 'vosaline' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
    ln_full_vel = .true.         ! =T => full velocities in 3D boundary conditions
-                                        ! =F => baroclinic velocities in 3D boundary conditions
+!                                        ! =F => baroclinic velocities in 3D boundary conditions
 &end
 /
 &nambdy_index ! open boundaries - definition ("key_bdy")
@@ -285,18 +286,19 @@
 /
 &nambdy_dta      !  open boundaries - external data           ("key_bdy")
 !-----------------------------------------------------------------------
-              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
-              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_right_twoless' ,          24     , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_right_twoless' ,                   24     , 'vobtcrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_right_twoless' ,                   24     , 'vobtcrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u3d  =    '3d_NEMO_right_twoless' ,              24     , 'vozocrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v3d  =    '3d_NEMO_right_twoless' ,              24     , 'vomecrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_tem  =    '3d_NEMO_right_twoless' ,              24     , 'votemper' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_sal  =    '3d_NEMO_right_twoless' ,              24     , 'vosaline' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+!              !            file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
+!              !                           !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
+!
+   bn_ssh =     '2d_right_flather_twoless' ,          24     , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_right_flather_twoless' ,          24     , 'vobtcrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_right_flather_twoless' ,          24     , 'vobtcrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_east_velocity_twoless' ,          24     , 'vozocrtx' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_east_velocity_twoless' ,          24     , 'vomecrty' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_NEMO_right_twoless' ,             24     , 'votemper' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_NEMO_right_twoless' ,             24     , 'vosaline' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
    ln_full_vel = .true.         ! =T => full velocities in 3D boundary conditions
-                                        ! =F => baroclinic velocities in 3D boundary conditions
+!                                        ! =F => baroclinic velocities in 3D boundary conditions
 &end
 /
 &nambdy_index ! open boundaries - definition ("key_bdy")
@@ -310,18 +312,18 @@
 !-----------------------------------------------------------------------
 &nambdy_dta      !  open boundaries - external data           ("key_bdy")
 !-----------------------------------------------------------------------
-!              !  file name      ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
-!              !                 !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
-   bn_ssh =     '2d_south_twoless' ,          24     , 'sossheig' ,     .true.    , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u2d =     '2d_south_twoless' ,                   24     , 'vobtcrtx' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v2d =     '2d_south_twoless' ,                   24     , 'vobtcrty' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_u3d  =    '3d_NEMO_south_twoless' ,              24     , 'vozocrtx' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_v3d  =    '3d_NEMO_south_twoless' ,              24     , 'vomecrty' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_tem  =    '3d_NEMO_south_twoless' ,              24     , 'votemper' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
-   bn_sal  =    '3d_NEMO_south_twoless' ,              24     , 'vosaline' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+!               !  file name               ! frequency (hours) ! variable   ! time interp.   !  clim  ! 'yearly'/   ! weights  ! rotation ! land/sea mask !
+!               !                          !  (if <0  months)  !   name     !   (logical)    !  (T/F )! 'monthly'   ! filename ! pairing  ! filename      !
+   bn_ssh =     '2d_south_flather_twoless' ,          24       , 'sossheig' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u2d =     '2d_south_flather_twoless' ,          24       , 'vobtcrtx' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v2d =     '2d_south_flather_twoless' ,          24       , 'vobtcrty' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_u3d  =    '3d_south_velocity_twoless' ,         24       , 'vozocrtx' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_v3d  =    '3d_south_velocity_twoless' ,         24       , 'vomecrty' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_tem  =    '3d_NEMO_south_twoless' ,             24       , 'votemper' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
+   bn_sal  =    '3d_NEMO_south_twoless' ,             24       , 'vosaline' ,     .true.     , .true. ,  'monthly'  ,    ''    ,   ''     , ''
    cn_dir  =    '/ocean/ssahu/CANYONS/bdy_files/'
    ln_full_vel = .true.		! =T => full velocities in 3D boundary conditions
-                                        ! =F => baroclinic velocities in 3D boundary conditions
+!                                        ! =F => baroclinic velocities in 3D boundary conditions
 /
 !-----------------------------------------------------------------------
 &nambdy_tide     ! tidal forcing at open boundaries
@@ -383,7 +385,7 @@
 !----------------------------------------------------------------------------------
 &namtra_ldf    !   lateral diffusion scheme for tracers
 !----------------------------------------------------------------------------------
-   rn_aeiv_0        =     0.    !  eddy induced velocity coefficient [m2/s]
+   rn_aeiv_0        =    50.    !  eddy induced velocity coefficient [m2/s] (uses key_traldf_eiv)
    rn_aht_0         =  1000.    !  horizontal eddy diffusivity for tracers [m2/s]
 /
 !-----------------------------------------------------------------------
@@ -422,7 +424,8 @@
 !-----------------------------------------------------------------------
 &namdyn_ldf    !   lateral diffusion on momentum
 !-----------------------------------------------------------------------
-   rn_ahm_0_lap     = 1000.   !  horizontal laplacian eddy viscosity   [m2/s]
+!   rn_ahm_0_lap     = 225.   !  horizontal laplacian eddy viscosity   [m2/s]
+    rn_cmsmag_1      =   4.   !  constant in laplacian Smagorinsky viscosity (uses key_dynldf_c3d & key_dynldf_smag)
 /
 !-----------------------------------------------------------------------
 &namzdf        !   vertical physics

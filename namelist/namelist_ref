@@ -569,7 +569,7 @@
 !-----------------------------------------------------------------------
    nn_cln_update =    3    !  baroclinic update frequency
    ln_spc_dyn    = .true.  !  use 0 as special value for dynamics
-   rn_sponge_tra = 2880.   !  coefficient for tracer   sponge layer [m2/s]
+!   rn_sponge_tra = 2880.   !  coefficient for tracer   sponge layer [m2/s]
    rn_sponge_dyn = 2880.   !  coefficient for dynamics sponge layer [m2/s]
 /
 !-----------------------------------------------------------------------
@@ -610,6 +610,7 @@
     ln_dyn3d_dmp  =.false.                !  open boundary condition for baroclinic velocities
     rn_time_dmp   =  1.                   ! Damping time scale in days
     rn_time_dmp_out =  1.                 ! Outflow damping time scale
+    rn_max_sponge = 20.                   ! maximum strength of sponge (m2/s)
     nn_rimwidth   = 10                    !  width of the relaxation zone
     ln_vol        = .false.               !  total volume correction (see nn_volctl parameter)
     nn_volctl     = 1                     !  = 0, the total water flux across open boundaries is zero
