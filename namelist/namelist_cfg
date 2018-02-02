@@ -6,7 +6,7 @@
 !-----------------------------------------------------------------------
    cn_exp      =   "WCVI"   !  experience name
    nn_it000    =       1   !  first time step
-   nn_itend    =   54000   !  last  time step
+   nn_itend    =       1  !54000   !  last  time step
    nn_date0    =  20160402 ! date at nn_it000 (format yyyymmdd) ie START OF THIS SEGMENT
    nn_leapy    =      30   !  Leap year calendar (1) or not (0)
    nn_stock    =    1800   !  frequency of creation of a restart file (modulo referenced to 1)
@@ -21,11 +21,11 @@
 !-----------------------------------------------------------------------
    cp_cfg      =   "WCVI"                 !  name of the configuration
    jp_cfg      =       1                 !  resolution of the configuration
-   jpidta      =      70                 !  1st lateral dimension ( >= jpi ) = 30*jp_cfg+2
-   jpjdta      =     100                 !  2nd    "         "    ( >= jpj ) = 20*jp_cfg+2 
-   jpkdta      =      27                 !  number of levels      ( >= jpk )
-   jpiglo      =      70                 !  1st dimension of global domain --> i  = jpidta
-   jpjglo      =     100                 !  2nd    -                  -    --> j  = jpjdta
+   jpidta      =     290                 !  1st lateral dimension ( >= jpi ) = 30*jp_cfg+2
+   jpjdta      =     390                 !  2nd    "         "    ( >= jpj ) = 20*jp_cfg+2 
+   jpkdta      =      40                 !  number of levels      ( >= jpk )
+   jpiglo      =     290                 !  1st dimension of global domain --> i  = jpidta
+   jpjglo      =     390                 !  2nd    -                  -    --> j  = jpjdta
    jpizoom     =       1                 !  left bottom (i,j) indices of the zoom
    jpjzoom     =       1                 !  in data domain indices
    jperio      =       0                 !  lateral cond. type (between 0 and 6)
@@ -54,13 +54,13 @@
    ppe2_deg    =  999999.0               !  meridional grid-spacing (degrees)
    ppe1_m      =  999999.0               !  zonal      grid-spacing (degrees)
    ppe2_m      =  999999.0               !  meridional grid-spacing (degrees)
-   ppsur       =   -1448.0                 !  -929.47             !  ORCA r4, r2 and r05 coefficients
+   ppsur       =   -4104.0                 !  -929.47             !  ORCA r4, r2 and r05 coefficients
    ppa0        =       155.3             ! (default coefficients)
    ppa1        =       146.0             !
-   ppkth       =       12.0              !
-   ppacr       =      3.0                  ! 9.0              !
+   ppkth       =       35.0              !
+   ppacr       =      10.0                  ! 9.0              !
    ppdzmin     =       999999.0               !  Minimum vertical spacing
-   pphmax      =      999999.0               !  Maximum depth
+   pphmax      =       999999.0               !  Maximum depth
    ldbletanh   =  .FALSE.                !  Use/do not use double tanf function for vertical coordinates
    ppa2        =  999999.0               !  Double tanh function parameters
    ppkth2      =  999999.0               !
