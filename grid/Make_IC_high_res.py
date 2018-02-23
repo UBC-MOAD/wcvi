@@ -79,7 +79,9 @@ for i in np.arange(votemper_JP.shape[1]):
         else:
             continue
 
-fname_wcvi = '/ocean/ssahu/CANYONS/wcvi/grid/coordinates.nc'
+#fname_wcvi = '/ocean/ssahu/CANYONS/wcvi/grid/coordinates.nc'
+
+fname_wcvi = '/ocean/ssahu/CANYONS/wcvi/grid/coordinates_westcoast_seagrid_high_resolution_truncated_wider_west_bdy.nc'
 
 with nc.Dataset(fname_wcvi, 'r') as coord:
     gphit_wcvi = coord.variables['gphit'][0,...];
@@ -97,8 +99,8 @@ votemper_ic = np.empty((votemper_JP.shape[0], glamt_wcvi.shape[0], glamt_wcvi.sh
 vosaline_ic = np.empty((vosaline_JP.shape[0], glamt_wcvi.shape[0], glamt_wcvi.shape[1]));
 
 for i in np.arange(votemper_JP.shape[0]):
-    votemper_ic[i,...] = np.reshape(griddata(points, votemper_JP[i,...].flatten(), xi, method= 'cubic'), glamt_wcvi.shape)
-    vosaline_ic[i,...] = np.reshape(griddata(points, vosaline_JP[i,...].flatten(), xi, method= 'cubic'), glamt_wcvi.shape)
+    votemper_ic[i,...] = np.reshape(griddata(points, votemper_JP[i,...].flatten(), xi, method= 'linear'), glamt_wcvi.shape)
+    vosaline_ic[i,...] = np.reshape(griddata(points, vosaline_JP[i,...].flatten(), xi, method= 'linear'), glamt_wcvi.shape)
 
 
 
@@ -193,7 +195,7 @@ print("Vertical Interpolation to WCVI depth levels successful")
 
 print("Now writing into a binary file to be used as IC for NEMO")
 
-file_temp = nc.Dataset('/ocean/ssahu/CANYONS/wcvi/initial_conditions/West_coast_NEMO_IC_high_resolution.nc', 'w', zlib=True)
+file_temp = nc.Dataset('/ocean/ssahu/CANYONS/wcvi/initial_conditions/West_coast_NEMO_IC_high_resolution_wide_bdy.nc', 'w', zlib=True)
 # dataset attributes
 nc_tools.init_dataset_attrs(
     file_temp, 

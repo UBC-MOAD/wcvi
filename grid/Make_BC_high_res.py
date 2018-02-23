@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.ma as ma
 import netCDF4 as nc
-from   salishsea_tools import viz_tools, geo_tools,nc_tools
+from   salishsea_tools import (nc_tools, gsw_calls, viz_tools, geo_tools)
 from   scipy.interpolate import griddata, interp1d
 import xarray as xr
 from   grid_alignment import calculate_initial_compass_bearing as cibc
@@ -145,7 +145,7 @@ xi = (glamt_wcvi.flatten(), gphit_wcvi.flatten())
 
 #Number of points to trim off the ends, set equal to the would be FRS rimwidth
 
-N = 10
+N = 11
 
 glamt_wcvi_bc_left = glamt_wcvi[:,0:N-1]; gphit_wcvi_bc_left = gphit_wcvi[:,0:N-1];
 glamt_wcvi_bc_right = glamt_wcvi[:,-N:-1]; gphit_wcvi_bc_right = gphit_wcvi[:,-N:-1];
@@ -182,19 +182,19 @@ xi_bottom = (glamt_wcvi_bc_bottom.flatten(), gphit_wcvi_bc_bottom.flatten())
 
 
 for p in np.arange(votemper.shape[0]):
-    ssh_wcvi_left[p,...] = np.reshape(griddata(points, np.array(ssh[p,...]).flatten(), xi_left, method= 'cubic'), glamt_wcvi_bc_left.shape)
-    ssh_wcvi_right[p,...] = np.reshape(griddata(points, np.array(ssh[p,...]).flatten(), xi_right, method= 'cubic'), glamt_wcvi_bc_right.shape)
-    ssh_wcvi_top[p,...] = np.reshape(griddata(points, np.array(ssh[p,...]).flatten(), xi_top, method= 'cubic'), glamt_wcvi_bc_top.shape)
-    ssh_wcvi_bottom[p,...] = np.reshape(griddata(points, np.array(ssh[p,...]).flatten(), xi_bottom, method= 'cubic'), glamt_wcvi_bc_bottom.shape)
+    ssh_wcvi_left[p,...] = np.reshape(griddata(points, np.array(ssh[p,...]).flatten(), xi_left, method= 'linear'), glamt_wcvi_bc_left.shape)
+    ssh_wcvi_right[p,...] = np.reshape(griddata(points, np.array(ssh[p,...]).flatten(), xi_right, method= 'linear'), glamt_wcvi_bc_right.shape)
+    ssh_wcvi_top[p,...] = np.reshape(griddata(points, np.array(ssh[p,...]).flatten(), xi_top, method= 'linear'), glamt_wcvi_bc_top.shape)
+    ssh_wcvi_bottom[p,...] = np.reshape(griddata(points, np.array(ssh[p,...]).flatten(), xi_bottom, method= 'linear'), glamt_wcvi_bc_bottom.shape)
     for i in np.arange(votemper.shape[1]):
-        votemper_wcvi_left[p,i,...] = np.reshape(griddata(points, votemper[p,i,...].flatten(), xi_left, method= 'cubic'), glamt_wcvi_bc_left.shape)
-        votemper_wcvi_right[p,i,...] = np.reshape(griddata(points, votemper[p,i,...].flatten(), xi_right, method= 'cubic'), glamt_wcvi_bc_right.shape)
-        vosaline_wcvi_left[p,i,...] = np.reshape(griddata(points, vosaline[p,i,...].flatten(), xi_left, method= 'cubic'), glamt_wcvi_bc_left.shape)
-        vosaline_wcvi_right[p,i,...] = np.reshape(griddata(points, vosaline[p,i,...].flatten(), xi_right, method= 'cubic'), glamt_wcvi_bc_right.shape)
-        votemper_wcvi_top[p,i,...] = np.reshape(griddata(points, votemper[p,i,...].flatten(), xi_top, method= 'cubic'), glamt_wcvi_bc_top.shape)
-        votemper_wcvi_bottom[p,i,...] = np.reshape(griddata(points, votemper[p,i,...].flatten(), xi_bottom, method= 'cubic'), glamt_wcvi_bc_bottom.shape)
-        vosaline_wcvi_top[p,i,...] = np.reshape(griddata(points, vosaline[p,i,...].flatten(), xi_top, method= 'cubic'), glamt_wcvi_bc_top.shape)
-        vosaline_wcvi_bottom[p,i,...] = np.reshape(griddata(points, vosaline[p,i,...].flatten(), xi_bottom, method= 'cubic'), glamt_wcvi_bc_bottom.shape)
+        votemper_wcvi_left[p,i,...] = np.reshape(griddata(points, votemper[p,i,...].flatten(), xi_left, method= 'linear'), glamt_wcvi_bc_left.shape)
+        votemper_wcvi_right[p,i,...] = np.reshape(griddata(points, votemper[p,i,...].flatten(), xi_right, method= 'linear'), glamt_wcvi_bc_right.shape)
+        vosaline_wcvi_left[p,i,...] = np.reshape(griddata(points, vosaline[p,i,...].flatten(), xi_left, method= 'linear'), glamt_wcvi_bc_left.shape)
+        vosaline_wcvi_right[p,i,...] = np.reshape(griddata(points, vosaline[p,i,...].flatten(), xi_right, method= 'linear'), glamt_wcvi_bc_right.shape)
+        votemper_wcvi_top[p,i,...] = np.reshape(griddata(points, votemper[p,i,...].flatten(), xi_top, method= 'linear'), glamt_wcvi_bc_top.shape)
+        votemper_wcvi_bottom[p,i,...] = np.reshape(griddata(points, votemper[p,i,...].flatten(), xi_bottom, method= 'linear'), glamt_wcvi_bc_bottom.shape)
+        vosaline_wcvi_top[p,i,...] = np.reshape(griddata(points, vosaline[p,i,...].flatten(), xi_top, method= 'linear'), glamt_wcvi_bc_top.shape)
+        vosaline_wcvi_bottom[p,i,...] = np.reshape(griddata(points, vosaline[p,i,...].flatten(), xi_bottom, method= 'linear'), glamt_wcvi_bc_bottom.shape)
 
 print("The ssh, temperature and Salinity data has been interpolated to WCVI horizontal grid strips successfully")
 
@@ -243,7 +243,7 @@ for idx, val in enumerate(U_vel_BC_unfiltered[:,...]):
 
 print("The velocities are filtered")
 
-for i in np.arange(U_vel_BC,shape[0]):
+for i in np.arange(U_vel_BC.shape[0]):
     U_vel_BC[i,...] = ma.masked_array(U_vel_BC[i,...], mask = umask_JP[...])
     V_vel_BC[i,...] = ma.masked_array(V_vel_BC[i, ...], mask = vmask_JP[...])
 
@@ -309,9 +309,9 @@ v_unrotated_wcvi_t = np.empty((v_unrotated.shape[0],v_unrotated.shape[1],glamt_w
 for p in np.arange(u_unrotated.shape[0]):
     for i in np.arange(v_unrotated.shape[1]):
         u_unrotated_wcvi_t[p,i,...] = np.reshape(griddata(points, u_unrotated[p,i,:,...].flatten(), \
-                                                xi, method= 'cubic'), glamt_wcvi.shape)
+                                                xi, method= 'linear'), glamt_wcvi.shape)
         v_unrotated_wcvi_t[p,i,...] = np.reshape(griddata(points, v_unrotated[p,i,...].flatten(), \
-                                                xi, method= 'cubic'), glamt_wcvi.shape)
+                                                xi, method= 'linear'), glamt_wcvi.shape)
 
 
 mag_vel_at_wcvi = np.sqrt(np.multiply(u_unrotated_wcvi_t,u_unrotated_wcvi_t), \
@@ -449,11 +449,14 @@ print("Working with the 3D NEMO West boundary conditions")
 
 U_vel_JP_level_left        = np.swapaxes(u_3d_left, 3, 2)
 V_vel_JP_level_left        = np.swapaxes(v_3d_left, 3, 2)
-votemper_JP_level_PT_left  = np.swapaxes(votemper_wcvi_left, 3, 2)
-vosaline_JP_level_PSU_left = np.swapaxes(vosaline_wcvi_left, 3, 2)
+votemper_JP_level_PT_left  = np.swapaxes(votemper_left, 3, 2)
+vosaline_JP_level_PSU_left = np.swapaxes(vosaline_left, 3, 2)
 
 print("Calling GSW tools to convert to Conservative Temperature and Reference Salinity for west bdy")
 
+mask_wcvi = nc.Dataset('/ocean/ssahu/CANYONS/wcvi/grid/meshmask_files/mesh_mask_high_res.nc')
+
+NEMO_depth_T = mask_wcvi.variables['gdept_0'][0,:,0,0]
 
 depth_JP_T = nc.Dataset('/ocean/ssahu/JP_BC/cat_42_days_T.nc').variables['deptht'][:]
 
@@ -897,7 +900,7 @@ print("Writing the 2d North bdy conditions")
 
 bdy_file = nc.Dataset(path_bdy + '2d_north_flather_yBT_looped_twoless_high_res_m04.nc', 'w', zlib=True);
 
-bdy_file.createDimension('xbT', sossheig_new_top.shape[2]);
+bdy_file.createDimension('xbT', sossheig_2d_top.shape[2]);
 bdy_file.createDimension('yb', 1);
 bdy_file.createDimension('time_counter', None);
 

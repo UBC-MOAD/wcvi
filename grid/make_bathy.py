@@ -61,7 +61,9 @@ x,y,z,p = getcascadia(cascadiafile)
 
 
 
-coord = nc.Dataset('coordinates_westcoast_seagrid_high_resolution_truncated.nc')
+#coord = nc.Dataset('coordinates_westcoast_seagrid_high_resolution_truncated.nc')
+
+coord = nc.Dataset('coordinates_westcoast_seagrid_high_resolution_truncated_wider_west_bdy.nc')
 
 T_grid_lon = coord.variables['glamt'][0,:]
 T_grid_lat = coord.variables['gphit'][0,:]
@@ -81,7 +83,7 @@ X,Y,z = X.flatten(), Y.flatten(), z.flatten()
 
 points = (X,Y)
 xi = (Xt.flatten(), Yt.flatten())
-casnearest = np.reshape(interpolate.griddata(points, z, xi, method='cubic'), Xt.shape)
+casnearest = np.reshape(interpolate.griddata(points, z, xi, method='linear'), Xt.shape)
 
 
 def lakefill(bathy):
@@ -145,9 +147,26 @@ def writebathy(filename,glamt,gphit,bathy):
 
 
 
-writebathy('bathy_meter_high_res_cubic_truncated.nc',T_grid_lon,T_grid_lat,casnearest)
+writebathy('bathy_meter_high_res_wider_bdy.nc',T_grid_lon,T_grid_lat,casnearest)
 
+# Now we need to flatten out anything below 2Km depth
 
+bathy_data = nc.Dataset('bathy_meter_high_res_wider_bdy.nc')
+
+X = bathy_data.variables['nav_lon']
+Y = bathy_data.variables['nav_lat']
+Z = np.array(bathy_data.variables['Bathymetry'])
+
+for i in np.arange(Z.shape[0]):
+    for j in np.arange(Z.shape[1]):
+        if Z[i,j]>=2000:
+            Z[i,j] = 2000
+        else:
+            continue
+            
+writebathy('bathy_meter_high_res_linear_wider_westbdy_flatten_2000m.nc',T_grid_lon,T_grid_lat,Z)
+
+print("Final bathymetry made, file closed, Thank you")
 
 
 
